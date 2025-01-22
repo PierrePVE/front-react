@@ -1,0 +1,196 @@
+/* Base Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Root Setup */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+header {
+  background-color: #26438c;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+header p {
+  font-size: 1.125rem;
+  margin-top: 5px;
+}
+
+/* Main Section */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.main h2 {
+  font-size: 2rem;
+  color: #26438c;
+  margin-bottom: 20px;
+}
+
+.main p {
+  font-size: 1rem;
+  color: #555;
+  max-width: 900px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.button {
+  padding: 12px 25px;
+  background-color: #75d6ab;
+  color: #26438c;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1.125rem;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.button:hover {
+  background-color: #64c5a5;
+}
+
+/* Card Styles */
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 30px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+  height: 200px;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Forms */
+form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #26438c;
+  outline: none;
+}
+
+textarea {
+  min-height: 150px;
+}
+
+/* Footer */
+footer {
+  background-color: #26438c;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+footer p {
+  font-size: 1rem;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .main {
+    padding: 20px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .button {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.75rem;
+  }
+
+  header p {
+    font-size: 1rem;
+  }
+
+  .main h2 {
+    font-size: 1.5rem;
+  }
+
+  .button {
+    width: 100%;
+    font-size: 1.125rem;
+  }
+}

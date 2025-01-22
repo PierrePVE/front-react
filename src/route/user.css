@@ -1,0 +1,140 @@
+/* Style global pour la page de gestion des utilisateurs */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #4d053e;
+    padding: 20px;
+    text-align: center;
+    color: #ffffff;
+    position: sticky;
+    top: 0; /* Fixe la position de la navbar en haut */
+    z-index: 1000; /* Assure que la navbar reste en haut de la page */
+}
+
+header nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+    margin-right: 20px;
+}
+
+header button {
+    background-color: #924aa5;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+header button:hover {
+    background-color: #4d053e;
+}
+
+/* Section principale */
+main {
+    padding: 20px;
+    margin-top: 80px; /* Ajoute de l'espace sous la navbar pour éviter que le contenu ne soit caché */
+}
+
+h2 {
+    color: #4d053e;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+input[type="text"], input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #4d053e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4d053e;
+}
+
+/* Gestion des utilisateurs */
+.users-section {
+    margin-top: 20px;
+}
+
+.users-section .user-item {
+    background-color: #ffffff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.users-section .user-item p {
+    font-size: 18px;
+    color: #4d053e;
+}
+
+.users-section .user-item button {
+    background-color: #924aa5;
+    margin-top: 10px;
+}
+
+.users-section .user-item button:hover {
+    background-color: #4d053e;
+}
+
+/* Formulaire d'ajout d'utilisateur */
+.add-user-form input[type="text"] {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.add-user-form button {
+    background-color: #924aa5;
+}
+
+.add-user-form button:hover {
+    background-color: #4d053e;
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    header nav a {
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    input[type="text"], input[type="password"], button {
+        width: 100%;
+    }
+}
