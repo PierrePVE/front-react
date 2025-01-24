@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import SHA256 from 'crypto-js/sha256';
-import { API_URL } from "../main.tsx";
-
+import { API_URL, postRequestApi} from "../main.tsx";
 
 const EditPassword = ({ name, token, setError }) => {
   const [password, setPassword] = useState("");
+  // const [user, setUser] = useState({
+  //     name: localStorage.getItem('name') || "",
+  //     password: ""
+  // });
 
   const handleEditPassword = async () => {
     if (!password) return alert("Veuillez remplir le champ");
@@ -20,8 +23,20 @@ const EditPassword = ({ name, token, setError }) => {
     });
 
     const data = await res.json();
-    res.ok ? alert("Mot de passe modifié") : setError(data.message);
+    if(res.ok){ 
+      alert("Mot de passe modifié")
+      handleLogout();
+    }  
+    else 
+      setError(data.message);
     setPassword("");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('name');
+    localStorage.removeItem('admin');
+    location.reload();
   };
 
   return (
