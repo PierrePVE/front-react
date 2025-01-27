@@ -3,6 +3,7 @@ import SHA256 from "crypto-js/sha256";
 import { API_URL, getRequestApi, deleteRequestApi, postAutomationRequestApi, postRequestApi, putRequestApi } from "../main.tsx";
 import Objects from "../lib/Objects.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Led from "../lib/type/led.tsx"
 
 interface DataObject {
   object_id: string;
