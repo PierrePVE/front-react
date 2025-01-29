@@ -1,0 +1,86 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  /* RoomBox Styling */
+  .roomBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #3e002f; /* Purple theme */
+    color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding-bottom: 10%;
+  }
+  
+  .roomBox:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Header Styling */
+  .roomBox #header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .roomBox #header h1 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .roomBox #header .settings {
+    background: none;
+    border: none;
+    color: #c890d0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .roomBox #header .settings:hover {
+    color: #fff;
+  }
+  
+  /* Component Container Styling */
+  .roomBox #comp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Grid Item Styling */
+  #object {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
+    gap: 1rem;
+    background-color: transparent;
+  }
+  
+  /* Responsive Styling */
+  @media (max-width: 768px) {
+    .roomBox {
+      padding: 0.75rem;
+      border-radius: 12px;
+    }
+  
+    .roomBox #header h1 {
+      font-size: 1rem;
+    }
+  }
+  
