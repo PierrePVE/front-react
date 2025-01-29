@@ -1,51 +1,70 @@
 .navbar {
   top: 0;
   left: 0;
-  width: 100%;
-  z-index: 1000;
+  width: 100vw; /* Utilise 100% de la largeur de la fenêtre (viewport) */
+  z-index: 1000; /* S'assure qu'elle reste au-dessus des autres éléments */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: #4d053e; 
+  background-color: #fff; /* Couleur de fond (ajustez selon vos besoins) */
 }
 
-.navbar-dark .navbar-brand {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.navbar-nav .nav-link {
-  color: #ffffff !important;
-  font-size: 18px;
-  padding: 10px 15px;
-  transition: all 0.3s ease;
-}
-
-.navbar-nav .nav-link:hover {
-  background-color: #924aa5;
-  border-radius: 5px;
-}
-
-/* Bouton burger */
-.navbar-toggler {
-  border: none;
-}
-
-.navbar-toggler-icon {
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 5px;
-}
-
-/* Responsive */
-@media (max-width: 991px) {
-  .navbar-nav {
+  /* Style de la navbar */
+  .navbar-dark {
+    background-color: #4d053e; /* Couleur de fond */
+  }
+  
+  .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  /* Style des liens dans la navbar */
+  .navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-size: 18px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    background-color: #924aa5; 
+    border-radius: 5px;
+  }
+  
+  /* Menu burger */
+  .navbar-toggler {
+    border: none;
+    color: #ffffff;
+  }
+  
+  .navbar-toggler-icon {
+    background-color: #ffffff;
+  }
+  
+  /* Styles pour rendre le menu responsive */
+  @media (max-width: 991px) {
+    .navbar-nav {
+      text-align: center;
+    }
+  
+    .navbar-nav .nav-item {
+      margin: 10px 0;
+    }
+  
+    .navbar-toggler {
+      background-color: #26438c; /* Couleur de fond du bouton burger */
+    }
+  }
+  
+  /* Amélioration de l'apparence du menu burger lorsqu'il est ouvert */
+  .navbar-collapse {
     text-align: center;
   }
-  .navbar-nav .nav-item {
-    margin: 10px 0;
+  
+  /* Fixer les liens à droite sur grands écrans */
+  @media (min-width: 992px) {
+    .navbar-nav.ms-auto {
+      margin-left: auto;
+    }
   }
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
+  

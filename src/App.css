@@ -52,8 +52,8 @@
   --error: #FF0000;
   --font: 'Poppins', sans-serif;
   --text-color: #333;
-  --primary-bg: #924aa5;
-  --accent-color: #4d053e;
+  --primary-bg: #26438c;
+  --accent-color: #75d6ab;
   --hover-shadow: rgba(0, 0, 0, 0.15);
 }
 
@@ -66,7 +66,7 @@
 }
 
 body {
-  background-color: #4d053e;
+  background-color: var(--color3);
   font-family: var(--font);
   font-size: 1.2rem;
   line-height: 1.6;
@@ -118,7 +118,7 @@ body {
 }
 
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em var(#4d053e));
+  filter: drop-shadow(0 0 2em var(--accent-color));
 }
 
 @keyframes logo-spin {
@@ -235,7 +235,7 @@ button:active {
 
 #date {
   font-size: 1.2rem;
-  color: var(#924aa5);
+  color: var(--primary-bg);
   font-weight: 500;
   margin-bottom: 10px;
   text-align: left;
