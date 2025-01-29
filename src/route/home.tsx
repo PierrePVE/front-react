@@ -4,6 +4,7 @@ import { API_URL, getRequestApi, deleteRequestApi, postAutomationRequestApi, pos
 import Objects from "../lib/Objects.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Led from "../lib/type/led.tsx"
+import '../route/home.css'
 
 interface DataObject {
   object_id: string;
@@ -315,7 +316,7 @@ const Home = () => {
 
   return (
         <>
-          <div className="container d-flex flex-column justify-content-center align-items-center text-center">
+          <div className="container2 d-flex flex-column justify-content-center align-items-center text-center">
 
             {/* User/Login Section */}
             <div id="user">
@@ -365,7 +366,7 @@ const Home = () => {
                 </div>
               ) : (
                 // Si le token est présent, afficher les informations de l'utilisateur connecté
-                <div id="connectedSection" className="d-flex flex-column justify-content-center align-items-center text-center py-4 px-3 shadow-sm rounded bg-light">
+                <div id="connectedSection" className="d-flex flex-column justify-content-center align-items-center text-center py-4 px-3 shadow-sm rounded">
                   <h2 className="fs-1 mb-4" style={{ fontFamily: "Roboto, sans-serif", color: "#333" }}>Welcome {user.name} !</h2>
                   <a href="/user" className="btn btn-link mb-3 text-decoration-none text-primary fs-5 hover-shadow">
                     <span className="material-symbols-rounded me-2">settings</span> Account Settings
