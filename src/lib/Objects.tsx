@@ -6,6 +6,7 @@ import TempInt from "./type/temp_int.tsx";
 import Shutter from "./type/shutter.tsx";
 import MeteoExt from "./type/meteo_ext.tsx";
 import DetectObject from "./type/detect_object.tsx";
+import './Objects.css';  
 
 const components = {
     led: Led,

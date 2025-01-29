@@ -1,0 +1,110 @@
+
+.container2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+    
+  }
+  
+  /* Section de connexion */
+  #loginSection {
+    font-size: 1.2rem; /* Augmenter la taille de la police */
+    width: 100%;      /* Largeur à 100% */
+    padding: 30px;    /* Espacement interne */
+  }
+  
+  #loginSection h2 {
+    font-size: 2rem;  /* Taille du titre */
+    margin-bottom: 20px;
+  }
+  
+  #loginSection input {
+    font-size: 1.2rem;  /* Taille du texte dans les champs */
+    padding: 10px;      /* Espacement interne des champs */
+    margin-bottom: 15px;
+  }
+  
+  #loginSection button {
+    font-size: 1.0rem;   /* Taille du texte du bouton */
+    padding: 12px 20px;  /* Taille du bouton */
+  }
+  
+  #loginSection .text-danger {
+    font-size: 1.1rem;   /* Taille du texte d'erreur */
+  }
+  
+  /* Section utilisateur connecté */
+  #connectedSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  #connectedSection h2 {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  #connectedSection .btn-link {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }
+  
+  #connectedSection .btn-outline-danger {
+    font-size: 1.2rem;
+    padding: 12px 25px;
+  }
+  
+  #connectedSection .material-symbols-rounded {
+    margin-right: 10px;
+  }
+  
+  /* Responsivité : ajuster pour petits écrans */
+  @media (max-width: 768px) {
+    #loginSection,
+    #connectedSection {
+      width: 90%;
+      padding: 20px;
+    }
+  
+    #loginSection h2 {
+      font-size: 1.8rem;
+    }
+  
+    #loginSection input,
+    #loginSection button {
+      font-size: 1rem;
+      padding: 8px;
+    }
+  
+    #connectedSection h2 {
+      font-size: 1.8rem;
+    }
+  
+    #connectedSection .btn-link {
+      font-size: 1rem;
+    }
+  }
+  
+.roombox {
+
+  background-color: #b60000;  /* Fond clair */
+  padding: 30px;              /* Espacement autour du contenu */
+  border-radius: 10px;        /* Coins arrondis */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  width: 80%;                 /* Largeur à 80% du parent */
+  margin: 20px auto;  
+
+}
+
