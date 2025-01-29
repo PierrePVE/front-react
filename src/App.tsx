@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import  NavBar  from './lib/components/navbar.tsx';  // Exemple de chemin correct
+import  NavBar  from './components/navbar.tsx';  // Exemple de chemin correct
 
 // Composants pour les routes
 import Home from './route/home.tsx';

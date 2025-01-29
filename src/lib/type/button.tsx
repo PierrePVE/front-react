@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ButtonCompo from "../components/buttonCompo";
+import ButtonCompo from "../../components/buttonCompo.tsx";
 
 const Button = ({ value }) => {
   // Décomposez les propriétés de l'objet "value"

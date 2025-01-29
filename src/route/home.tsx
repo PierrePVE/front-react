@@ -14,8 +14,30 @@ interface DataObject {
   type: any;
 }
 
+interface Param {
+  parameter_id: string;
+  name: string;
+  type: string;
+}
+
+interface Trigger {
+  id_obj: string;
+  param: string;
+  cond: string;
+  value: string;
+}
+
+interface Action {
+  id_obj: string;
+  param: string;
+  active: string;
+  disable: string;
+}
+
 interface Automation {
   name: string;
+  trigger: Trigger;
+  action: Action;
 }
 
 interface Room {
@@ -85,10 +107,12 @@ const Home = () => {
     // Update the data every 5 seconds
     const intervalId = setInterval(async () => {
       if (token != null) {
-        await getValueAndParams(allObjects);
+        const objects = await getData(); // Récupère toujours les derniers objets
+        setAllObjects(objects); // Met à jour allObjects pour éviter qu'il soit vide
+        await getValueAndParams(objects);
         console.log("Updated");
       }
-    }, 1000);
+    }, 1000);    
 
     return () => {
       clearInterval(intervalId);
@@ -100,9 +124,13 @@ const Home = () => {
     setAddAutomation(false);
     setError("");
     if (selectedObject !== id && id !== null) {
+      console.log("selectedObject open : ", selectedObject)
+      console.log("idObject open : ", id)
       setSelectedObject(id);
       setSide(true);
     } else {
+      console.log("selectedObject close : ", selectedObject)
+      console.log("idObject close : ", id)
       setSelectedObject(null);
       setSide(false);
     }
@@ -130,7 +158,11 @@ const Home = () => {
   };
 
   const getRooms = async () => {
-    return await getRequestApi(token, '/user/room/');
+     
+    const room =await getRequestApi(token, '/user/room/');
+    
+
+    return room
   };
 
   const getAutorisation = async () => {
@@ -138,29 +170,32 @@ const Home = () => {
   };
 
   const getValueAndParams = async (objs) => {
-    for (const obj of objs) {
-      const values = await getValuesFromId(obj);
-      const params = await getParamByType(obj);
-      const rooms = await getRooms();
-      const autorisation = await getAutorisation();
+    const newDataObjects = [...allDataObjects];
 
-      const index = allDataObjects.findIndex(x => x.object_id === obj.object_id);
-      if (index !== -1) {
-        setAllDataObjects((prev) => {
-          const newData = [...prev];
-          newData[index] = { ...obj, values, params };
-          return newData;
-        });
-      } else {
-        setAllDataObjects((prev) => [...prev, { ...obj, values, params }]);
-      }
+    for (const obj of objs) {
+        const values = await getValuesFromId(obj);
+        const params = await getParamByType(obj);
+        
+        setRooms(await getRooms());
+        const autorisation = await getAutorisation();
+
+        const index = newDataObjects.findIndex(x => x.object_id === obj.object_id);
+        if (index !== -1) {
+            newDataObjects[index] = { ...obj, values, params };
+        } else {
+            newDataObjects.push({ ...obj, values, params });
+        }
     }
-  };
+
+    setAllDataObjects(newDataObjects);
+};
 
   const getAllData = async () => {
     setDataLoaded(false);
     const objects = await getData();
     setAllObjects(objects);
+    console.log(objects)
+    
     await getValueAndParams(objects);
     const automations = await getAutomations();
     setAutomations(automations);
@@ -223,7 +258,7 @@ const Home = () => {
   const handleLogin = async () => {
     if (user.name !== "" && user.password !== "") {
      // console.log("user : " + user.name + " password : " + user.password)
-      user.password = SHA256(user.password).toString();
+      user.password = SHA256(user.password).toString(); // A enlever pour décrypter autrement !
       //console.log("token : " + token)
       const { response, status } = await postRequestApi(token, '/user/login', user);
       console.log("réponse : ", response);
@@ -273,6 +308,10 @@ const Home = () => {
     setFriendlyName("");
     location.reload();
   };
+
+  useEffect(() => {
+      console.log(allDataObjects);
+  }, [allDataObjects]);
 
   return (
         <>
@@ -370,51 +409,412 @@ const Home = () => {
                     )
                 )}
             </main>
+            {/* partie pour afficher les paramètre d'un objet a controller*/}
             {side && (
-                <div>
-                    <div id="header">
-                        <h1>Settings</h1>
-                        <button name="close" onClick={toggleSide}>
-                            <span className="material-symbols-rounded">close</span>
-                        </button>
+              <div className="modal show d-block" tabIndex={-1} role="dialog">
+                <div className="modal-dialog" role="document">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title">Paramètres</h5>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        onClick={() => toggleSide(null)} // Ferme la modale
+                        aria-label="Close"
+                      ></button>
                     </div>
-
-                    {/* Collapse Menus */}
-                    <div className="colapseMenu">
-                        <button className="colapseBtn" onClick={toggleColapseName}>
-                            <h2>Names</h2>
-                            <span className="material-symbols-rounded">
-                                {colapseName ? "expand_less" : "expand_more"}
+                    <div className="modal-body">
+                      {/* Contenu de la modale */}
+                      <div>
+                        <div className="colapseMenu">
+                          {/* Colapse Name */}
+                          {/* Bouton pour ouvrir le form pour ajouter un nom à l'objet */}
+                          <button
+                            className="btn btn-secondary w-100 mb-2"
+                            onClick={toggleColapseName}
+                          >
+                            <h6 className="d-inline">Names</h6>
+                            <span className="float-end material-symbols-rounded">
+                              {colapseName ? "expand_less" : "expand_more"}
                             </span>
-                        </button>
-                        {colapseName && (
+                          </button>
+                           {/* Formulaire pour changer le nom de l'objet */}
+                          {colapseName && (
                             <div>
-                                {allObjects.map((object) =>
-                                    object.object_id === selectedObject ? (
-                                        <div key={object.object_id} className="objectSetting">
-                                            <h2>{object.friendly_name}</h2>
-                                            <p>Type : {object.type}</p>
-                                            <div className="input">
-                                                <input
-                                                    type="text"
-                                                    value={friendlyName}
-                                                    onChange={(e) => setFriendlyName(e.target.value)}
-                                                    placeholder="Friendly name"
-                                                />
-                                                <button
-                                                    className="custom_button center"
-                                                    onClick={handleEditFriendlyname}
-                                                >
-                                                    Save
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ) : null
-                                )}
+                              {allObjects.map((object) =>
+                                object.object_id === selectedObject ? (
+                                  <div key={object.object_id} className="border p-3 mb-3">
+                                    <h6>{object.friendly_name}</h6>
+                                    <p>Type : {object.type}</p>
+                                    <div className="input-group">
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={friendlyName}
+                                        onChange={(e) => setFriendlyName(e.target.value)}
+                                        placeholder="Friendly name"
+                                      />
+                                      <div className="input-group-append">
+                                        <button className="btn btn-success" onClick={handleEditFriendlyname}>
+                                          Enregistrer
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <p key={object.object_id}>Non</p>
+                                )
+                              )}
                             </div>
-                        )}
+                          )}
+                          {/* Colapse Room */}
+                          {/* Bouton pour ouvrir le form pour modifier la room affecté à l'objet */}
+                          <button
+                            className="btn btn-secondary w-100 mb-2"
+                            onClick={toggleColapseRoom}
+                          >
+                            <h6 className="d-inline">Rooms</h6>
+                            <span className="float-end material-symbols-rounded">
+                              {colapseRoom ? "expand_less" : "expand_more"}
+                            </span>
+                          </button>
+                          {/* Formulaire pour affecter la room */}
+                          <div className={colapseRoom ? "collapse show" : "collapse"}>
+                            {allObjects.map((object) =>
+                              object.object_id === selectedObject ? (
+                                <div key={object.object_id} className="objectSetting p-3 mb-3 border">
+                                  <h2>{object.friendly_name}</h2>
+                                  <p>Room: {getRoomNameById(object.room_id)}</p>
+                                  <select
+                                    value={newRoom}
+                                    onChange={(e) => setNewRoom(e.target.value)}
+                                    className="form-control"
+                                  >
+                                    <option value="-1" disabled>
+                                      -- Select --
+                                    </option>
+                                    {rooms.map((room) => (
+                                      <option key={room.id} value={room.id}>
+                                        {room.name}
+                                      </option>
+                                    ))}
+                                  </select>
+                                  <button
+                                    className="btn btn-primary mt-2"
+                                    onClick={handleEditRoom}
+                                  >
+                                    Edit Room
+                                  </button>
+                                </div>
+                              ) : null
+                            )}
+                          </div>
+                          {/* colapseAutomation */}
+                          {/* Bouton pour ouvrir le form pour ajouter un automation à l'objet */}
+                          <button
+                            className="btn btn-secondary w-100 mb-2"
+                            onClick={toggleColapseAutomation}
+                          >
+                            <h6 className="d-inline">Automations</h6>
+                            <span className="float-end material-symbols-rounded">
+                              {colapseAutomation ? "expand_less" : "expand_more"}
+                            </span>
+                          </button>
+                          {/* Formulaire d'ajout de l'automation */}
+                          <div className={colapseAutomation ? "collapse show" : "collapse"}>
+                            {automations.map((automation) =>
+                              automation.trigger.id_obj === selectedObject ? (
+                                <div key={automation.name} className="automationSetting">
+                                  <div className="title">
+                                    <h2>{automation.name}</h2>
+                                    <button onClick={() => handleDeleteAutomation(automation.name)}>
+                                      <span className="material-symbols-rounded">delete</span>
+                                    </button>
+                                  </div>
+                                  <div className="line">
+                                    <p>Trigger :</p>
+                                    <div>
+                                      <p>id_obj: {automation.trigger.id_obj}</p>
+                                      {allDataObjects.map((object) =>
+                                        object.object_id === automation.trigger.id_obj ? (
+                                          object.params.values.map((param) =>
+                                            param.parameter_id === automation.trigger.param ? (
+                                              <p key={param.parameter_id}>param: {param.name}</p>
+                                            ) : null
+                                          )
+                                        ) : null
+                                      )}
+                                      <p>cond: {automation.trigger.cond}</p>
+                                      <p>value: {automation.trigger.value}</p>
+                                    </div>
+                                  </div>
+                                  <div className="line">
+                                    <p>Action :</p>
+                                    <div>
+                                      <p>id_obj: {automation.action.id_obj}</p>
+                                      {allDataObjects.map((object) =>
+                                        object.object_id === automation.action.id_obj ? (
+                                          object.params.values.map((param) =>
+                                            param.parameter_id === automation.action.param ? (
+                                              <p key={param.parameter_id}>param: {param.name}</p>
+                                            ) : null
+                                          )
+                                        ) : null
+                                      )}
+                                      <p>active: {automation.action.active}</p>
+                                      <p>disable: {automation.action.disable}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : null
+                            )}
+
+                            {/* Affichage de Automation*/}
+                            {addAutomation ? (
+                              <div className="card shadow-sm">
+                                <div className="card-header bg-primary text-white">
+                                  <h4 className="mb-0">New Automation</h4>
+                                </div>
+                                <div>
+                                  <table className="table">
+                                    <tbody>
+                                      <tr>
+                                        <td>Name</td>
+                                        <td>
+                                          <input
+                                            type="text"
+                                            name="name"
+                                            value={newAutomation.name}
+                                            onChange={(e) => setNewAutomation({ ...newAutomation, name: e.target.value })}
+                                            className="form-control"
+                                          />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td colSpan={2} className="text-center">
+                                          Trigger
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Parametre</td>
+                                        <td>
+                                          <select
+                                            name="param_in"
+                                            value={newAutomation.trigger.param}
+                                            onChange={(e) => setNewAutomation({ ...newAutomation, trigger: { ...newAutomation.trigger, param: e.target.value } })}
+                                            className="form-control"
+                                          >
+                                            <option value="" disabled>
+                                              -- Select one --
+                                            </option>
+                                            {allDataObjects.map((object) =>
+                                              object.object_id === selectedObject
+                                                ? object.params.values.map((param) => (
+                                                    <option key={param.parameter_id} value={param.parameter_id}>
+                                                      {param.name}
+                                                    </option>
+                                                  ))
+                                                : null
+                                            )}
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Condition</td>
+                                        <td>
+                                          {allDataObjects.map((object) =>
+                                            object.object_id === selectedObject
+                                              ? object.params.values.map((param) =>
+                                                  param.parameter_id === newAutomation.trigger.param ? (
+                                                    <select
+                                                      key={param.parameter_id}
+                                                      name="cond_in"
+                                                      value={newAutomation.trigger.cond}
+                                                      onChange={(e) => setNewAutomation({ ...newAutomation, trigger: { ...newAutomation.trigger, cond: e.target.value } })}
+                                                      className="form-control"
+                                                    >
+                                                      <option value="" disabled>
+                                                        -- Select one --
+                                                      </option>
+                                                      {param.type === "bool" ? (
+                                                        <>
+                                                          <option value="=">=</option>
+                                                          <option value="toggle">toggle</option>
+                                                        </>
+                                                      ) : (
+                                                        <>
+                                                          <option value="=">=</option>
+                                                          <option value=">">&gt;</option>
+                                                          <option value="<">&lt;</option>
+                                                        </>
+                                                      )}
+                                                    </select>
+                                                  ) : null
+                                                )
+                                              : null
+                                          )}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Valeur</td>
+                                        <td>
+                                          {allDataObjects.map((object) =>
+                                            object.object_id === selectedObject
+                                              ? object.params.values.map((param) =>
+                                                  param.parameter_id === newAutomation.trigger.param ? (
+                                                    param.type === "bool" ? (
+                                                      <select
+                                                        key={param.parameter_id}
+                                                        name="value_in"
+                                                        value={newAutomation.trigger.value}
+                                                        onChange={(e) => setNewAutomation({ ...newAutomation, trigger: { ...newAutomation.trigger, value: e.target.value } })}
+                                                        className="form-control"
+                                                      >
+                                                        <option value="" disabled>
+                                                          -- Select one --
+                                                        </option>
+                                                        <option value="1">true</option>
+                                                        <option value="0">false</option>
+                                                      </select>
+                                                    ) : param.type === "int" ? (
+                                                      <input
+                                                        type="number"
+                                                        name="value_in"
+                                                        value={newAutomation.trigger.value}
+                                                        onChange={(e) => setNewAutomation({ ...newAutomation, trigger: { ...newAutomation.trigger, value: e.target.value } })}
+                                                        className="form-control"
+                                                      />
+                                                    ) : (
+                                                      <input
+                                                        type="text"
+                                                        name="value_in"
+                                                        value={newAutomation.trigger.value}
+                                                        onChange={(e) => setNewAutomation({ ...newAutomation, trigger: { ...newAutomation.trigger, value: e.target.value } })}
+                                                        className="form-control"
+                                                      />
+                                                    )
+                                                  ) : null
+                                                )
+                                              : null
+                                          )}
+                                        </td>
+                                      </tr>
+                                      {/* Deuxième partis */}
+                                      <tr>
+                                        <td colSpan={2} className="text-center">
+                                          Action
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Object</td>
+                                        <td>
+                                          <select name="id_obj" className="form-control" value={newAutomation.action.id_obj} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, id_obj: e.target.value } })}>
+                                            <option value="" disabled>-- Select one --</option>
+                                            {allDataObjects.map((object) => (
+                                              <option key={object.object_id} value={object.object_id}>
+                                                {object.friendly_name} ({object.type})
+                                              </option>
+                                            ))}
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Parametre</td>
+                                        <td>
+                                          <select name="param_in" className="form-control" value={newAutomation.action.param} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, param: e.target.value } })}>
+                                            <option value="" disabled>-- Select one --</option>
+                                            {allDataObjects.map((object) =>
+                                              object.object_id === newAutomation.action.id_obj &&
+                                              object.params.values.map((param) => (
+                                                <option key={param.parameter_id} value={param.parameter_id}>
+                                                  {param.name}
+                                                </option>
+                                              ))
+                                            )}
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>True</td>
+                                        <td>
+                                          {allDataObjects.map((object) =>
+                                            object.object_id === newAutomation.action.id_obj &&
+                                            object.params.values.map((param) =>
+                                              param.parameter_id === newAutomation.action.param && (
+                                                param.type === "bool" ? (
+                                                  <select name="active_in" value={newAutomation.action.active} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, active: e.target.value } })}>
+                                                    <option value="" disabled>-- Select one --</option>
+                                                    <option value="1">true</option>
+                                                    <option value="0">false</option>
+                                                  </select>
+                                                ) : param.type === "int" ? (
+                                                  <input type="number" name="active_in" value={newAutomation.action.active} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, active: e.target.value } })} />
+                                                ) : (
+                                                  <input type="text" name="active_in" value={newAutomation.action.active} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, active: e.target.value } })} />
+                                                )
+                                              )
+                                            )
+                                          )}
+                                          <input type="text" disabled className="disableElement" />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>False</td>
+                                        <td>
+                                          {allDataObjects.map((object) =>
+                                            object.object_id === newAutomation.action.id_obj &&
+                                            object.params.values.map((param) =>
+                                              param.parameter_id === newAutomation.action.param && (
+                                                param.type === "bool" ? (
+                                                  <select name="disable_in" value={newAutomation.action.disable} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, disable: e.target.value } })}>
+                                                    <option value="" disabled>-- Select one --</option>
+                                                    <option value="1">true</option>
+                                                    <option value="0">false</option>
+                                                  </select>
+                                                ) : param.type === "int" ? (
+                                                  <input type="number" name="disable_in" value={newAutomation.action.disable} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, disable: e.target.value } })} />
+                                                ) : (
+                                                  <input type="text" name="disable_in" value={newAutomation.action.disable} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, disable: e.target.value } })} />
+                                                )
+                                              )
+                                            )
+                                          )}
+                                          <input type="text" disabled className="disableElement" />
+                                        </td>
+                                      </tr>
+
+                                      <tr>
+                                        <td colSpan={2} className="text-center">
+                                          <button className="btn btn-primary" onClick={AddAutomation}>
+                                            Add automation
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            ) : (
+                              <button className="btn btn-primary" onClick={handleAddAutomation}>
+                                Add automation
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => toggleSide(null)} // Ferme la modale
+                      >
+                        Fermer
+                      </button>
+                    </div>
+                  </div>
                 </div>
+              </div>
             )}
         </>
     );

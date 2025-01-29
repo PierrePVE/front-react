@@ -1,12 +1,12 @@
-/* Fixer la navbar en haut */
 .navbar {
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
+  top: 0;
+  left: 0;
+  width: 100vw; /* Utilise 100% de la largeur de la fenêtre (viewport) */
+  z-index: 1000; /* S'assure qu'elle reste au-dessus des autres éléments */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff; /* Couleur de fond (ajustez selon vos besoins) */
+}
+
   /* Style de la navbar */
   .navbar-dark {
     background-color: #4d053e; /* Couleur de fond */
