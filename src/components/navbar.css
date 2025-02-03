@@ -4,7 +4,9 @@
   width: 100%;
   z-index: 1000;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: #4d053e; 
+  /*background-color: #4d053e;*/ 
+  background: linear-gradient(90deg, #4d053e, #924aa5);
+  transition: background 0.5s ease-in-out;
 }
 
 .navbar-dark .navbar-brand {
@@ -48,4 +50,23 @@
 body {
   margin: 0;
   padding: 0;
+}
+
+.navbar-collapse {
+  transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in-out;
+  overflow: hidden;
+}
+
+.fade-in {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.fade-out {
+  max-height: 0;
+  opacity: 0;
+}
+
+.custom-icon-size {
+  font-size: 1.75rem;
 }

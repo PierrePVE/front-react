@@ -366,10 +366,10 @@ const Home = () => {
                 </div>
               ) : (
                 // Si le token est présent, afficher les informations de l'utilisateur connecté
-                <div id="connectedSection" className="d-flex flex-column justify-content-center align-items-center text-center py-4 px-3 shadow-sm rounded">
-                  <h2 className="fs-1 mb-4" style={{ fontFamily: "Roboto, sans-serif", color: "#333" }}>Welcome {user.name} !</h2>
+                <div id="connectedSection" className="d-flex flex-column justify-content-center align-items-center text-center py-4 px-3 shadow-sm rounded mt-2">
+                  <h2 className="fs-1 mb-4 fw-bold" style={{ fontFamily: "Roboto, sans-serif", color: "#333" }}>Welcome {user.name} !</h2>
                   <a href="/user" className="btn btn-link mb-3 text-decoration-none text-primary fs-5 hover-shadow">
-                    <span className="material-symbols-rounded me-2">settings</span> Account Settings
+                    <span className="material-symbols-rounded me-2 align-middle">settings</span> Account Settings
                   </a>
                   <button
                     className="btn btn-outline-danger d-flex align-items-center gap-2 py-2 px-4 fs-5"
@@ -382,41 +382,42 @@ const Home = () => {
             </div>
           </div>
             <main>
-                {!token ? (
-                    <p>Vous devez être connecté pour accéder à cette page</p>
+              {!token ? (
+                <p>Vous devez être connecté pour accéder à cette page</p>
+              ) : (
+                !dataLoaded ? (
+                  <p>Chargement...</p>
                 ) : (
-                    !dataLoaded ? (
-                        <p>Chargement...</p>
-                    ) : (
-                        rooms.map((room) => (
-                            <div className="roomBox" key={room.id}>
-                                <h1>{room.name}</h1>
-                                <div>
-                                    {allDataObjects.map((object) =>
-                                        object.room_id === room.id ? (
-                                            <Objects
-                                                key={object.object_id}
-                                                toggleSettings={toggleSide}
-                                                size="1x1"
-                                                value={object}
-                                                autorisation={autorisation}
-                                                admin={admin}
-                                            />
-                                        ) : null
-                                    )}
-                                </div>
-                            </div>
-                        ))
-                    )
-                )}
+                  rooms.map((room) => (
+                    <div key={room.id} className="mb-4 roomCard p-4 mt-5">
+                      <h1 className="text-center fw-bold fs-1">{room.name}</h1>
+                        <div className="d-flex flex-wrap">
+                          {allDataObjects
+                            .filter((object) => object.room_id === room.id)
+                            .map((object) => (
+                              <div className="roomBox m-2 p-3" key={object.object_id}>
+                                <Objects
+                                  toggleSettings={toggleSide}
+                                  size="1x1"
+                                  value={object}
+                                  autorisation={autorisation}
+                                  admin={admin}
+                                />
+                              </div>
+                            ))}
+                        </div>
+                    </div>
+                  ))
+                )
+              )}
             </main>
             {/* partie pour afficher les paramètre d'un objet a controller*/}
             {side && (
               <div className="modal show d-block" tabIndex={-1} role="dialog">
                 <div className="modal-dialog" role="document">
                   <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title">Paramètres</h5>
+                    <div className="modal-header justify-content-center">
+                      <h5 className="modal-title text-center fw-bold fs-1">Settings </h5>
                       <button
                         type="button"
                         className="btn-close"
@@ -431,11 +432,11 @@ const Home = () => {
                           {/* Colapse Name */}
                           {/* Bouton pour ouvrir le form pour ajouter un nom à l'objet */}
                           <button
-                            className="btn btn-secondary w-100 mb-2"
+                            className="btn btn-primary w-100 mb-2"
                             onClick={toggleColapseName}
                           >
-                            <h6 className="d-inline">Names</h6>
-                            <span className="float-end material-symbols-rounded">
+                            <h6 className="d-inline text-white">Names</h6>
+                            <span className="float-end material-symbols-rounded text-white">
                               {colapseName ? "expand_less" : "expand_more"}
                             </span>
                           </button>
@@ -445,7 +446,7 @@ const Home = () => {
                               {allObjects.map((object) =>
                                 object.object_id === selectedObject ? (
                                   <div key={object.object_id} className="border p-3 mb-3">
-                                    <h6>{object.friendly_name}</h6>
+                                    <h6 className="fw-bold text-center fs-5">{object.friendly_name}</h6>
                                     <p>Type : {object.type}</p>
                                     <div className="input-group">
                                       <input
@@ -456,8 +457,8 @@ const Home = () => {
                                         placeholder="Friendly name"
                                       />
                                       <div className="input-group-append">
-                                        <button className="btn btn-success" onClick={handleEditFriendlyname}>
-                                          Enregistrer
+                                        <button className="btn btn-success d-flex align-items-center" onClick={handleEditFriendlyname}>
+                                          Save
                                         </button>
                                       </div>
                                     </div>
@@ -471,11 +472,11 @@ const Home = () => {
                           {/* Colapse Room */}
                           {/* Bouton pour ouvrir le form pour modifier la room affecté à l'objet */}
                           <button
-                            className="btn btn-secondary w-100 mb-2"
+                            className="btn btn-primary w-100 mb-2"
                             onClick={toggleColapseRoom}
                           >
-                            <h6 className="d-inline">Rooms</h6>
-                            <span className="float-end material-symbols-rounded">
+                            <h6 className="d-inline text-white">Rooms</h6>
+                            <span className="float-end material-symbols-rounded text-white">
                               {colapseRoom ? "expand_less" : "expand_more"}
                             </span>
                           </button>
@@ -484,28 +485,32 @@ const Home = () => {
                             {allObjects.map((object) =>
                               object.object_id === selectedObject ? (
                                 <div key={object.object_id} className="objectSetting p-3 mb-3 border">
-                                  <h2>{object.friendly_name}</h2>
-                                  <p>Room: {getRoomNameById(object.room_id)}</p>
-                                  <select
-                                    value={newRoom}
-                                    onChange={(e) => setNewRoom(e.target.value)}
-                                    className="form-control"
-                                  >
-                                    <option value="-1" disabled>
-                                      -- Select --
-                                    </option>
-                                    {rooms.map((room) => (
-                                      <option key={room.id} value={room.id}>
-                                        {room.name}
+                                  <h6 className="fw-bold text-center fs-5">{object.friendly_name}</h6>
+                                  <p>Room : {getRoomNameById(object.room_id)}</p>
+                                  <div className="input-group">
+                                    <select
+                                      value={newRoom}
+                                      onChange={(e) => setNewRoom(e.target.value)}
+                                      className="form-control"
+                                    >
+                                      <option value="-1" disabled>
+                                        -- Select --
                                       </option>
-                                    ))}
-                                  </select>
-                                  <button
-                                    className="btn btn-primary mt-2"
-                                    onClick={handleEditRoom}
-                                  >
-                                    Edit Room
-                                  </button>
+                                      {rooms.map((room) => (
+                                        <option key={room.id} value={room.id}>
+                                          {room.name}
+                                        </option>
+                                      ))}
+                                    </select>
+                                    <div className="input-group-append">
+                                      <button
+                                        className="btn btn-success d-flex align-items-center"
+                                        onClick={handleEditRoom}
+                                      >
+                                        Edit Room
+                                      </button>
+                                      </div>
+                                    </div>
                                 </div>
                               ) : null
                             )}
@@ -513,74 +518,87 @@ const Home = () => {
                           {/* colapseAutomation */}
                           {/* Bouton pour ouvrir le form pour ajouter un automation à l'objet */}
                           <button
-                            className="btn btn-secondary w-100 mb-2"
+                            className="btn btn-primary w-100 mb-2"
                             onClick={toggleColapseAutomation}
                           >
-                            <h6 className="d-inline">Automations</h6>
-                            <span className="float-end material-symbols-rounded">
+                            <h6 className="d-inline text-white">Automations</h6>
+                            <span className="float-end material-symbols-rounded text-white">
                               {colapseAutomation ? "expand_less" : "expand_more"}
                             </span>
                           </button>
-                          {/* Formulaire d'ajout de l'automation */}
+                          {/* Affichage de Automation */}
                           <div className={colapseAutomation ? "collapse show" : "collapse"}>
                             {automations.map((automation) =>
                               automation.trigger.id_obj === selectedObject ? (
-                                <div key={automation.name} className="automationSetting">
-                                  <div className="title">
-                                    <h2>{automation.name}</h2>
-                                    <button onClick={() => handleDeleteAutomation(automation.name)}>
+                                <div key={automation.name} className="card mb-3 shadow-sm">
+                                  <div className="card-header d-flex justify-content-between bg-primary align-items-center">
+                                    <h5 className="mb-0 fw-bold text-white">{automation.name}</h5>
+                                    <button
+                                      className="btn btn-danger btn-sm"
+                                      onClick={() => handleDeleteAutomation(automation.name)}
+                                    >
                                       <span className="material-symbols-rounded">delete</span>
                                     </button>
                                   </div>
-                                  <div className="line">
-                                    <p>Trigger :</p>
-                                    <div>
-                                      <p>id_obj: {automation.trigger.id_obj}</p>
-                                      {allDataObjects.map((object) =>
-                                        object.object_id === automation.trigger.id_obj ? (
-                                          object.params.values.map((param) =>
-                                            param.parameter_id === automation.trigger.param ? (
-                                              <p key={param.parameter_id}>param: {param.name}</p>
-                                            ) : null
-                                          )
-                                        ) : null
-                                      )}
-                                      <p>cond: {automation.trigger.cond}</p>
-                                      <p>value: {automation.trigger.value}</p>
+
+                                  <div className="card-body">
+                                    {/* Trigger Section */}
+                                    <div className="mb-3">
+                                      <h6 className="fw-bold fs-5 text-center">Trigger</h6>
+                                      <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">ID Objet : {automation.trigger.id_obj}</li>
+                                        {allDataObjects.map((object) =>
+                                          object.object_id === automation.trigger.id_obj ? (
+                                            object.params.values.map((param) =>
+                                              param.parameter_id === automation.trigger.param ? (
+                                                <li key={param.parameter_id} className="list-group-item">
+                                                  Paramètre: {param.name}
+                                                </li>
+                                              ) : null
+                                            )
+                                          ) : null
+                                        )}
+                                        <li className="list-group-item">Condition : {automation.trigger.cond}</li>
+                                        <li className="list-group-item">Valeur : {automation.trigger.value}</li>
+                                      </ul>
                                     </div>
-                                  </div>
-                                  <div className="line">
-                                    <p>Action :</p>
+
+                                    {/* Action Section */}
                                     <div>
-                                      <p>id_obj: {automation.action.id_obj}</p>
-                                      {allDataObjects.map((object) =>
-                                        object.object_id === automation.action.id_obj ? (
-                                          object.params.values.map((param) =>
-                                            param.parameter_id === automation.action.param ? (
-                                              <p key={param.parameter_id}>param: {param.name}</p>
-                                            ) : null
-                                          )
-                                        ) : null
-                                      )}
-                                      <p>active: {automation.action.active}</p>
-                                      <p>disable: {automation.action.disable}</p>
+                                      <h6 className="fw-bold fs-5 text-center">Action</h6>
+                                      <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">ID Objet : {automation.action.id_obj}</li>
+                                        {allDataObjects.map((object) =>
+                                          object.object_id === automation.action.id_obj ? (
+                                            object.params.values.map((param) =>
+                                              param.parameter_id === automation.action.param ? (
+                                                <li key={param.parameter_id} className="list-group-item">
+                                                  Paramètre : {param.name}
+                                                </li>
+                                              ) : null
+                                            )
+                                          ) : null
+                                        )}
+                                        <li className="list-group-item">Active : {automation.action.active.toString()}</li>
+                                        <li className="list-group-item">Désactivé : {automation.action.disable.toString()}</li>
+                                      </ul>
                                     </div>
                                   </div>
                                 </div>
                               ) : null
                             )}
 
-                            {/* Affichage de Automation*/}
+                            {/* Formulaire d'ajout de l'automation */}
                             {addAutomation ? (
-                              <div className="card shadow-sm">
+                              <div className="card shadow-sm border border-primary">
                                 <div className="card-header bg-primary text-white">
-                                  <h4 className="mb-0">New Automation</h4>
+                                  <h4 className="mb-0 text-center fs-2 fw-bold">New Automation</h4>
                                 </div>
                                 <div>
                                   <table className="table">
                                     <tbody>
                                       <tr>
-                                        <td>Name</td>
+                                        <td className="align-middle">Name</td>
                                         <td>
                                           <input
                                             type="text"
@@ -592,12 +610,12 @@ const Home = () => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td colSpan={2} className="text-center">
+                                        <td colSpan={2} className="fw-bold text-center fs-5">
                                           Trigger
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>Parametre</td>
+                                        <td className="align-middle">Parametre</td>
                                         <td>
                                           <select
                                             name="param_in"
@@ -621,7 +639,7 @@ const Home = () => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>Condition</td>
+                                        <td className="align-middle">Condition</td>
                                         <td>
                                           {allDataObjects.map((object) =>
                                             object.object_id === selectedObject
@@ -657,7 +675,7 @@ const Home = () => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>Valeur</td>
+                                        <td className="align-middle">Valeur</td>
                                         <td>
                                           {allDataObjects.map((object) =>
                                             object.object_id === selectedObject
@@ -702,12 +720,12 @@ const Home = () => {
                                       </tr>
                                       {/* Deuxième partis */}
                                       <tr>
-                                        <td colSpan={2} className="text-center">
+                                        <td colSpan={2} className="fw-bold text-center fs-5">
                                           Action
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>Object</td>
+                                        <td className="align-middle">Object</td>
                                         <td>
                                           <select name="id_obj" className="form-control" value={newAutomation.action.id_obj} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, id_obj: e.target.value } })}>
                                             <option value="" disabled>-- Select one --</option>
@@ -720,7 +738,7 @@ const Home = () => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>Parametre</td>
+                                        <td className="align-middle">Parametre</td>
                                         <td>
                                           <select name="param_in" className="form-control" value={newAutomation.action.param} onChange={(e) => setNewAutomation({ ...newAutomation, action: { ...newAutomation.action, param: e.target.value } })}>
                                             <option value="" disabled>-- Select one --</option>
@@ -736,7 +754,7 @@ const Home = () => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>True</td>
+                                        <td className="align-middle">True</td>
                                         <td>
                                           {allDataObjects.map((object) =>
                                             object.object_id === newAutomation.action.id_obj &&
@@ -760,7 +778,7 @@ const Home = () => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>False</td>
+                                        <td className="align-middle">False</td>
                                         <td>
                                           {allDataObjects.map((object) =>
                                             object.object_id === newAutomation.action.id_obj &&
@@ -786,7 +804,7 @@ const Home = () => {
 
                                       <tr>
                                         <td colSpan={2} className="text-center">
-                                          <button className="btn btn-primary" onClick={AddAutomation}>
+                                          <button className="btn btn-success" onClick={AddAutomation}>
                                             Add automation
                                           </button>
                                         </td>
@@ -796,9 +814,11 @@ const Home = () => {
                                 </div>
                               </div>
                             ) : (
-                              <button className="btn btn-primary" onClick={handleAddAutomation}>
-                                Add automation
-                              </button>
+                              <div className="d-flex justify-content-center">
+                                <button className="btn btn-info text-white" onClick={handleAddAutomation}>
+                                  Add automation
+                                </button>
+                              </div>
                             )}
                           </div>
                         </div>

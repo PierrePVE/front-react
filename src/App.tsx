@@ -4,9 +4,11 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import  NavBar  from './components/navbar.tsx';  // Exemple de chemin correct
 
+
 // Composants pour les routes
 import Home from './route/home.tsx';
 import UserPage from './route/userPage.tsx';
+import Apropos from "./route/Apropos.tsx";
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user" element={<UserPage />} />
+          <Route path="/Apropos" element={<Apropos/>} />
         </Routes>
       </div>
     </Router>

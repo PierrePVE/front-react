@@ -44,7 +44,7 @@ const Led = ({ value }) => {
       <button onClick={toggle} style={{ background: "transparent", border: "none", cursor: "pointer" }}>
         <span
           className="material-symbols-rounded"
-          style={{ color: isOn ? "yellow" : "#c890d0", fontSize: "48px" }}
+          style={{ color: isOn ? "yellow" : "#c890d0", fontSize: "90px" }}
         >
           lightbulb
         </span>

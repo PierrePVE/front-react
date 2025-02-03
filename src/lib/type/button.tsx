@@ -35,10 +35,6 @@ const Button = ({ value }) => {
           <div className="bloc" key={params.parameter_id}>
             <h3>{params.name}</h3>
             <p>Last Update: {dateFromParamId[params.parameter_id] || "N/A"}</p>
-            {/* Utilisez ButtonCompo pour styliser vos boutons */}
-            <ButtonCompo onClick={() => console.log(`Clicked on ${params.name}`)}>
-              {`Action for ${params.name}`}
-            </ButtonCompo>
           </div>
         ))}
     </div>
