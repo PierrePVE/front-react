@@ -45,10 +45,8 @@ const NavBar = () => {
           <img src={logo} alt="Logo Domoteek" style={{ height: '40px', marginRight: '10px' }} />
         </Link>
 
-        <div className="icon-container">
-          <i className="bi bi-hypnotize rotating-icon"></i>
-        </div>
-        
+    
+
         <button
           className="navbar-toggler"
           type="button"

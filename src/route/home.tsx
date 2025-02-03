@@ -367,7 +367,7 @@ const Home = () => {
               ) : (
                 // Si le token est présent, afficher les informations de l'utilisateur connecté
                 <div id="connectedSection" className="d-flex flex-column justify-content-center align-items-center text-center py-4 px-3 shadow-sm rounded mt-2">
-                  <h2 className="fs-1 mb-4 fw-bold" style={{ fontFamily: "Roboto, sans-serif", color: "#333" }}>Welcome {user.name} !</h2>
+                  <h2 className="fs-1 mb-4 h3" style={{ fontFamily: "Roboto, sans-serif", color: "#333" }}>Welcome {user.name} !</h2>
                   <a href="/user" className="btn btn-link mb-3 text-decoration-none text-primary fs-5 hover-shadow">
                     <span className="material-symbols-rounded me-2 align-middle">settings</span> Account Settings
                   </a>

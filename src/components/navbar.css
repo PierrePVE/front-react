@@ -71,20 +71,6 @@ body {
   font-size: 1.75rem;
 }
 
-/* Centrer l'icône dans la navbar */
-.icon-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10; /* L'icône doit être au-dessus des autres éléments */
-}
-
-/* Animation de rotation */
-.rotating-icon {
-  font-size: 3rem; /* Ajuste la taille de l'icône */
-  animation: rotate 2s infinite linear; /* Applique une rotation infinie */
-}
 
 /* Définir l'animation de rotation */
 @keyframes rotate {
