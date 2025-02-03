@@ -443,8 +443,9 @@ const Home = () => {
                            {/* Formulaire pour changer le nom de l'objet */}
                           {colapseName && (
                             <div>
-                              {allObjects.map((object) =>
-                                object.object_id === selectedObject ? (
+                              {allObjects
+                                .filter(object => object.object_id === selectedObject)
+                                .map((object) => (
                                   <div key={object.object_id} className="border p-3 mb-3">
                                     <h6 className="fw-bold text-center fs-5">{object.friendly_name}</h6>
                                     <p>Type : {object.type}</p>
@@ -463,10 +464,7 @@ const Home = () => {
                                       </div>
                                     </div>
                                   </div>
-                                ) : (
-                                  <p key={object.object_id}>Non</p>
-                                )
-                              )}
+                                ))}
                             </div>
                           )}
                           {/* Colapse Room */}
