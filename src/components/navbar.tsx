@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from 'react-router-dom';
-import './navbar.css';  
-import logo from '../assets/logodomoteek.png';
+import '@style/navbar.css';  
+import logo from '@assets/logodomoteek.png';
 
 const NavBar = () => {
   const [date, setDate] = useState(new Date());

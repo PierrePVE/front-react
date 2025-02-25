@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../main.jsx";
-import Header from "../components/Header";
-import UserList from "../components/UserList";
-import RoomList from "../components/RoomList";
-import AuthorizationList from "../components/AuthorizationList";
-import EditPassword from "../components/EditPassword";
+import Header from "@components/Header";
+import UserList from "@components/UserList";
+import RoomList from "@components/RoomList";
+import AuthorizationList from "@components/AuthorizationList";
+import EditPassword from "@components/EditPassword";
 
 interface Users {
   id: any;

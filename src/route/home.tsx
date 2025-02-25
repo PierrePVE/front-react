@@ -4,7 +4,7 @@ import { API_URL, getRequestApi, deleteRequestApi, postAutomationRequestApi, pos
 import Objects from "../lib/Objects.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Led from "../lib/type/led.tsx"
-import '../route/home.css'
+import '@style/home.css'
 
 interface DataObject {
   object_id: string;
@@ -178,7 +178,8 @@ const Home = () => {
         const params = await getParamByType(obj);
         
         setRooms(await getRooms());
-        const autorisation = await getAutorisation();
+        const autorisationData = await getAutorisation();
+        setAutorisation(autorisationData);
 
         const index = newDataObjects.findIndex(x => x.object_id === obj.object_id);
         if (index !== -1) {
@@ -194,6 +195,7 @@ const Home = () => {
   const getAllData = async () => {
     setDataLoaded(false);
     const objects = await getData();
+    console.log("Objects fetched in getAllData:", objects);
     setAllObjects(objects);
     console.log(objects)
     
@@ -311,7 +313,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-      console.log(allDataObjects);
+     // console.log("allDataObjects : ",allDataObjects);
   }, [allDataObjects]);
 
   return (
@@ -367,7 +369,7 @@ const Home = () => {
               ) : (
                 // Si le token est présent, afficher les informations de l'utilisateur connecté
                 <div id="connectedSection" className="d-flex flex-column justify-content-center align-items-center text-center py-4 px-3 shadow-sm rounded mt-2">
-                  <h2 className="fs-1 mb-4 h3" style={{ fontFamily: "Roboto, sans-serif", color: "#333" }}>Welcome {user.name} !</h2>
+                  <h2 className="fs-1 mb-4 fw-bold" style={{ fontFamily: "Roboto, sans-serif", color: "#333" }}>Welcome {user.name} !</h2>
                   <a href="/user" className="btn btn-link mb-3 text-decoration-none text-primary fs-5 hover-shadow">
                     <span className="material-symbols-rounded me-2 align-middle">settings</span> Account Settings
                   </a>
@@ -444,7 +446,7 @@ const Home = () => {
                           {colapseName && (
                             <div>
                               {allObjects
-                                .filter(object => object.object_id === selectedObject)
+                                .filter((object) => object.object_id === selectedObject)
                                 .map((object) => (
                                   <div key={object.object_id} className="border p-3 mb-3">
                                     <h6 className="fw-bold text-center fs-5">{object.friendly_name}</h6>

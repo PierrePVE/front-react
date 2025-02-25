@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './App.css';
-import './main.css';
+import "@style/app.css";
+import '@style/main.css';
 import App from './App.tsx'
 
 // L'URL de l'API
@@ -22,6 +22,12 @@ root.render(
  * @returns {json} The response of the API
  */
 export async function postActuatorRequestApi(token, objectId, paramId, value) {
+
+  console.log("token : ", token)
+  console.log("objectId : ", objectId)
+  console.log("paramId : ", paramId)
+  console.log("value : ", value)
+
   const response = await fetch(API_URL + '/actuator/change', {
     method: 'POST',
     headers: {

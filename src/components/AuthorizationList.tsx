@@ -29,6 +29,7 @@ const AuthorizationList = ({ autorisations, setAutorisations, getAutorisations, 
         alert("Veuillez remplir tous les champs");
         return;
         }
+        //console.log("user : "+newAutorisation.user_id + "room : "+newAutorisation.room_id+ "role : "+newAutorisation.role)
         const res = await fetch(`${API_URL}/user/authorisation`, {
         method: "POST",
         headers: {

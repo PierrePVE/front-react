@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ButtonCompo from "../../components/buttonCompo.tsx";
+import ButtonCompo from "@components/buttonCompo.tsx";
 
 const Button = ({ value }) => {
   // Décomposez les propriétés de l'objet "value"
@@ -27,6 +27,8 @@ const Button = ({ value }) => {
       clearInterval(intervalId);
     };
   }, [valuesFromParamId]); // Dépendance pour exécuter ce hook quand les valeurs changent
+
+  // console.log("Value Button : ", value)
 
   return (
     <div id="container">

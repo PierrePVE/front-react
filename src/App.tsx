@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import "./App.css";
+import "@style/app.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import NavBar from "./components/navbar.tsx";
+import NavBar from "@components/navbar.tsx";
 
 // Composants des pages
 import Home from "./route/home.tsx";

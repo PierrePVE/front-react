@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { postActuatorRequestApi } from "../../main.tsx"; // Assurez-vous que cette fonction est bien définie dans le bon fichier.
+import { postActuatorRequestApi } from "../../main.tsx";
 
 const Led = ({ value }) => {
   // Initialisation de l'état pour le bouton, l'état initial et l'état de la dernière valeur
@@ -18,7 +18,6 @@ const Led = ({ value }) => {
         value.values[0].param_id,
         isOn ? "0" : "1"
       );
-      // Gérez la réponse du serveur si nécessaire
       // console.log(res.status === 200 ? "Success" : "Error", value.object_id, value.values[0].param_id, isOn ? "0" : "1");
     } catch (error) {
       console.error("Error sending data", error);
@@ -38,6 +37,8 @@ const Led = ({ value }) => {
       clearInterval(intervalId);
     };
   }, [lastState, value.values]);
+
+  // console.log("Value LED : ", value)
 
   return (
     <div>

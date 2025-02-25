@@ -1,12 +1,12 @@
 import React from "react";
-import Led from "./type/led.tsx";
-import Button from "./type/button.tsx";
-import Fan from "./type/fan.tsx";
-import TempInt from "./type/temp_int.tsx";
-import Shutter from "./type/shutter.tsx";
-import MeteoExt from "./type/meteo_ext.tsx";
-import DetectObject from "./type/detect_object.tsx";
-import './Objects.css';  
+import Led from "@lib/type/led.tsx";
+import Button from "@lib/type/button.tsx";
+import Fan from "@lib/type/fan.tsx";
+import TempInt from "@lib/type/temp_int.tsx";
+import Shutter from "@lib/type/shutter.tsx";
+import MeteoExt from "@lib/type/meteo_ext.tsx";
+import DetectObject from "@lib/type/detect_object.tsx";
+import '@style/Objects.css';  
 
 const components = {
     led: Led,
@@ -28,6 +28,8 @@ const ObjectComponent = ({ value, toggleSettings, size, autorisation, admin }) =
 
   // Calcul de la taille
   const [width, height] = size.split("x").map(Number);
+
+  //console.log("role : "+admin, "authorisation : "+autorisation)
 
   return (
     <div

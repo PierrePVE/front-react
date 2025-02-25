@@ -1,5 +1,5 @@
 import React from 'react';
-import './ButtonCompo.css'; // Import du fichier CSS pour styliser le bouton
+import '@style/ButtonCompo.css'; // Import du fichier CSS pour styliser le bouton
 
 interface ButtonCompoProps {
   onClick: () => void;
