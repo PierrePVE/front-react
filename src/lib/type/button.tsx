@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ButtonCompo from "@components/buttonCompo.tsx";
 
 const Button = ({ value }) => {
   // Décomposez les propriétés de l'objet "value"
@@ -28,15 +27,20 @@ const Button = ({ value }) => {
     };
   }, [valuesFromParamId]); // Dépendance pour exécuter ce hook quand les valeurs changent
 
-  // console.log("Value Button : ", value)
+  // console.log("Params Values Button : ", paramsValues)
 
   return (
     <div id="container">
       {paramsValues &&
         paramsValues.map((params) => (
-          <div className="bloc" key={params.parameter_id}>
-            <h3>{params.name}</h3>
-            <p>Last Update: {dateFromParamId[params.parameter_id] || "N/A"}</p>
+          <div
+            key={params.parameter_id}
+            style={{ width: "250px" }}
+          >
+            <h5 className="fw-bold text-white">🎛️ {params.name}</h5>
+            <p className="text-white small">
+              ⏳ Last press : {dateFromParamId[params.parameter_id] || "N/A"}
+            </p>
           </div>
         ))}
     </div>

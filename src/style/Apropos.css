@@ -43,4 +43,20 @@
   .apropos-link:hover {
     text-decoration: underline;
   }
-  
+
+@media (max-width: 768px) {
+  .apropos-container {
+    flex-direction: column; /* Aligne tous les éléments verticalement */
+    gap: 30px; /* Ajoute un espacement entre les cartes */
+  }
+
+  container {
+    flex-direction: column; /* Aligne tous les éléments verticalement */
+    gap: 30px; /* Ajoute un espace vertical entre les éléments */
+  }
+
+  .apropos-card {
+    flex: 1 1 100%; /* Chaque carte occupe 100% de la largeur */
+    max-width: 100%; /* Empêche toute restriction de largeur */
+  }
+}

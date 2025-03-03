@@ -4,8 +4,8 @@ import "@style/app.css";
 import '@style/main.css';
 import App from './App.tsx'
 
-// L'URL de l'API
-export const API_URL = 'http://localhost:3000/api';
+// API URL with dynamic location for local/remote support
+export const API_URL = `${window.location.protocol}//${window.location.hostname}:3000/api`;
 
 const root = ReactDOM.createRoot(document.getElementById('app') as HTMLElement); // Create a root
 root.render(
@@ -41,6 +41,9 @@ export async function postActuatorRequestApi(token, objectId, paramId, value) {
     })
   });
 
+  const data = await response.json();
+  console.log("Réponse de l'API : ", data);
+
   return await response.json();
 }
 
@@ -70,7 +73,7 @@ export async function postAutomationRequestApi(token, data) {
  */
 export async function postRequestApi(token, route, data): Promise<any> {
   //console.log("postRequestApi : ", token, route, data);
-  console.log("URL : ",API_URL + route)
+  console.log("URL : ", API_URL + route)
   const response = await fetch(API_URL + route, {
     method: 'POST',
     headers: {
@@ -80,7 +83,7 @@ export async function postRequestApi(token, route, data): Promise<any> {
     body: JSON.stringify(data)
   });
   const responseData = await response.json();
-  console.log("responsedata :",responseData);
+  console.log("responsedata :", responseData);
 
   // Retourner l'objet avec les données et le statut HTTP
   return {
@@ -96,6 +99,9 @@ export async function postRequestApi(token, route, data): Promise<any> {
  * @returns {json} The response of the API
  */
 export async function getRequestApi(token, route, param = '') {
+
+  // console.log("url",API_URL + route + param)
+
   const response = await fetch(API_URL + route + param, {
     method: 'GET',
     headers: {

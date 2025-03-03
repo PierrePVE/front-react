@@ -29,8 +29,6 @@ const ObjectComponent = ({ value, toggleSettings, size, autorisation, admin }) =
   // Calcul de la taille
   const [width, height] = size.split("x").map(Number);
 
-  //console.log("role : "+admin, "authorisation : "+autorisation)
-
   return (
     <div
       id="object"
@@ -65,7 +63,6 @@ const ObjectComponent = ({ value, toggleSettings, size, autorisation, admin }) =
         )}
       </div>
       <div id="comp">
-        {/* Rendu du composant spécifique au type */}
         <Component value={value} />
       </div>
     </div>

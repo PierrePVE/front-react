@@ -1,4 +1,4 @@
-
+/* Style de base pour le bouton */
 .button-comp {
     background-color: #4d053e; 
     color: white;
@@ -7,11 +7,46 @@
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center; 
     display: inline-block;
-}
-
-.button-comp:hover {
-    background-color: #924aa5; 
-}
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Effet au survol (hover) : lueur et agrandissement */
+  .button-comp:hover {
+    background-color: #924aa5; /* Couleur au survol */
+    box-shadow: 0 0 20px rgba(251, 30, 206, 0.8), 0 0 40px rgba(251, 30, 206, 0.4), 0 0 80px rgba(251, 30, 206, 0.1);
+    transform: scale(1.05); /* Agrandissement léger au survol */
+  }
+  
+  /* Effet au clic (active) : agrandissement et onde lumineuse */
+  .button-comp:active {
+    transform: scale(1.1); /* Agrandissement du bouton au clic */
+    box-shadow: 0 0 15px 5px rgba(231, 23, 207, 0.6); /* Ombre rose intense */
+    border-color: #ff0; /* Changer la couleur du bord pendant l'activation */
+  }
+  
+  /* Animation de l'onde lumineuse au clic */
+  .button-comp:active::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(231, 23, 207, 0.6);  /* Lueur rose intense */
+    width: 150px;  /* Plus large que l'onde classique */
+    height: 150px; /* Plus large que l'onde classique */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    animation: glow-ripple 0.5s linear;
+  }
+  
+  /* Animation de l'onde lumineuse */
+  @keyframes glow-ripple {
+    to {
+      transform: translate(-50%, -50%) scale(2); /* L'onde grandit avec un effet lumineux */
+      opacity: 0;
+    }
+  }
+  

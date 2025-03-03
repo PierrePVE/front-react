@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { postActuatorRequestApi } from "../../main.tsx";
+import { postActuatorRequestApi } from "../../API_request.tsx";
 import "@style/fan.css"
 
 const Fan = ({ value }) => {
+
+  //console.log("value Fan", value)
+
   // Utilisation de useState pour gérer l'état de l'activation et de la vitesse
   const [isOn, setIsOn] = useState(false);
   const [scale, setScale] = useState(0);

@@ -1,8 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from 'react-router-dom';
-import '@style/navbar.css';  
+import '@style/navbar.css';    
 import logo from '@assets/logodomoteek.png';
+import { FaHome } from 'react-icons/fa';
 
 const NavBar = () => {
   const [date, setDate] = useState(new Date());
@@ -40,13 +41,23 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" ref={navRef}>
       <div className="container-fluid">
-        {/* Logo */}
+        {/* Logo */} 
         <Link className="navbar-brand d-flex align-items-center" to="/" id="navbar-logo">
           <img src={logo} alt="Logo Domoteek" style={{ height: '40px', marginRight: '10px' }} />
         </Link>
 
-    
+        {/* Icône centrale avec effet arc */}
+        <div className="arc-icon-container">
+          <Link to="/" className="home-icon-link">
+            <div className="arc">
+              <div className="icon-container">
+                <FaHome className="home-icon" />
+              </div>
+            </div>
+          </Link>
+        </div>
 
+        {/* Bouton pour le menu en petit écran */}
         <button
           className="navbar-toggler"
           type="button"
@@ -57,7 +68,7 @@ const NavBar = () => {
           <i className="bi bi-cpu custom-icon-size"></i>
         </button>
 
-        {/* Menu principal avec animation (en petit écran) */}
+        {/* Menu principal */}
         <div
           className={`navbar-collapse ${isLargeScreen ? '' : menuOpen ? "show fade-in" : "fade-out"}`}
           id="navbarNav"
@@ -70,10 +81,10 @@ const NavBar = () => {
               <Link className="nav-link" to="/Apropos" onClick={() => setMenuOpen(false)}>À propos</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/services" onClick={() => setMenuOpen(false)}>Services</Link>
+              <Link className="nav-link" to="/Manuel" onClick={() => setMenuOpen(false)}>Manuel D'utilisation</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+              <Link className="nav-link" to="/galerie" onClick={() => setMenuOpen(false)}>Scénarios</Link>
             </li>
           </ul>
           {/* Date affichée à droite */}

@@ -5,6 +5,7 @@ import UserList from "@components/UserList";
 import RoomList from "@components/RoomList";
 import AuthorizationList from "@components/AuthorizationList";
 import EditPassword from "@components/EditPassword";
+import { getRequestApi } from "../API_request.js";
 
 interface Users {
   id: any;
@@ -38,7 +39,7 @@ const UserPage = () => {
 
   useEffect(() => {
     if (!token) {
-      window.location.href = "/";
+      window.location.href = "/Login";
     }
 
     if (admin) {
@@ -46,85 +47,74 @@ const UserPage = () => {
       getRooms();
       getAutorisations();
     }
+
+    // Update the data every 5 seconds
+    const intervalId = setInterval(async () => {
+      setToken(localStorage.getItem('token'));
+      if (token == null){
+        location.replace('/Login');
+      }
+    }, 1000);   
   }, [token, admin]);
 
   const getUsers = async () => {
-    const res = await fetch(`${API_URL}/user`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await res.json();
-
-    if (res.ok) {
+    try{
+      const data =await getRequestApi(token, `/user`);
       console.log("message")
       setUsers(data);
-    } else{
-      
-      seterror(data.message);
+      return data;
+    } catch (error){
+      seterror(error);
     }
   };
 
   const getRooms = async () => {
-    const res = await fetch(`${API_URL}/user/room`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await res.json();
-
-    if (res.ok) {
-      setRooms(data);
-    } else{
-      seterror(data.message);
-    }
-  };
+      try{
+        const data =await getRequestApi(token, `/user/room/`);
+        setRooms(data);
+        return data
+      } catch (error){
+        seterror(error);
+      }
+    };
 
   const getAutorisations = async () => {
-    const res = await fetch(`${API_URL}/user/authorisation`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await res.json();
-
-    if (res.ok) {
-      setAutorisations(data);
-    } else{
-      seterror(data.message);
-    }
-    
-  };
+    try{
+        const data = await getRequestApi(token, `/user/authorisation`);
+        setAutorisations(data);
+        return data
+      } catch (error){
+        seterror(error);
+      }
+    };
 
   const fetchUsers = async () => {
-    const res = await fetch(`${API_URL}/user`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    res.ok ? setUsers(data) : seterror(data.message);
+    const data = await getUsers();
+    data.ok ? setUsers(data) : seterror(data.message);
   };
 
   const fetchRooms = async () => {
-    const res = await fetch(`${API_URL}/user/room`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    res.ok ? setRooms(data) : seterror(data.message);
+    const data = await getRooms();
+    data.ok ? setRooms(data) : seterror(data.message);
+    
   };
 
   const fetchAuthorizations = async () => {
-    const res = await fetch(`${API_URL}/user/authorisation`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    res.ok ? setAutorisations(data) : seterror(data.message);
+    
+    const data = await getAutorisations();
+
+    data.ok ? setAutorisations(data) : seterror(data.message);
   };
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        seterror(""); 
+      }, 5000);
+
+      return () => clearTimeout(timer); 
+    }
+  }, [error]);
 
   return (
     <div>
@@ -147,10 +137,11 @@ const UserPage = () => {
               token={token}
               fetchAuthorizations={fetchAuthorizations}
             />
+
           </>
         )}
       </main>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="text-danger" style={{ fontSize: "1.3rem", border: "1px solid", padding : "10px",left : "50%", borderRadius: "10px",   position: "fixed", bottom:"0", transform: "translateX(-50%)"}}>{error}</p>}
     </div>
   );
 };

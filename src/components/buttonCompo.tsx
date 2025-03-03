@@ -8,7 +8,7 @@ interface ButtonCompoProps {
 
 const ButtonCompo: React.FC<ButtonCompoProps> = ({ onClick, children }) => {
   return (
-    <button className="button-comp" onClick={onClick}>
+    <button className="button-comp btn-with-glow-effect" onClick={onClick}>
       {children}
     </button>
   );

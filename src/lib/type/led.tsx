@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { postActuatorRequestApi } from "../../main.tsx";
+import { postActuatorRequestApi } from "../../API_request.tsx";
 
 const Led = ({ value }) => {
   // Initialisation de l'état pour le bouton, l'état initial et l'état de la dernière valeur
@@ -27,9 +27,13 @@ const Led = ({ value }) => {
   // Gestion de l'intervalle pour vérifier l'état à intervalles réguliers
   useEffect(() => {
     const intervalId = setInterval(() => {
+
       if (lastState !== value.values[0].value) {
         setLastState(value.values[0].value);
-        setIsOn(value.values[0].value === "0" ? true : false);
+
+        setIsOn(value.values[0].value == "0" ? false : true);
+
+      
       }
     }, 1000);
 

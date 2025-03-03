@@ -6,9 +6,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "@components/navbar.tsx";
 
 // Composants des pages
+import Login from "./route/Login.tsx";
 import Home from "./route/home.tsx";
 import UserPage from "./route/userPage.tsx";
 import Apropos from "./route/Apropos.tsx";
+import Manuel from "./route/ManuelUtilisation.tsx";
 
 const pageVariants = {
   initial: { scale: 1.1, opacity: 0 },
@@ -17,8 +19,7 @@ const pageVariants = {
 };
 
 
-const transition = { duration: 0.5 };
-
+const transition = { duration: 0.25 };
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -37,6 +38,8 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/user" element={<UserPage />} />
           <Route path="/Apropos" element={<Apropos />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/Manuel" element={<Manuel />} />
         </Routes>
       </motion.div>
     </AnimatePresence>
