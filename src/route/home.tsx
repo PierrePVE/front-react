@@ -103,7 +103,6 @@ const Home = () => {
     } else {
       console.error("lastTimestamp is null");
     } const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
-      location.replace('/Login');
     if (timeDifference > oneHour) {
       localStorage.clear();
       location.replace('/Login');
@@ -181,8 +180,8 @@ const Home = () => {
   const getValueAndParams = async (objs) => {
     const newDataObjects = [...allDataObjects];
 
-    console.log("objs : ", objs)
-    console.log("allDataObjects avant :", newDataObjects);
+    //console.log("objs : ", objs)
+    //console.log("allDataObjects avant :", newDataObjects);
 
     for (const obj of objs) {
       const values = await getValuesFromId(obj);
@@ -200,11 +199,11 @@ const Home = () => {
         console.log(`✅ Objet mis à jour: ${obj.object_id}`);
       } else {
         newDataObjects.push({ ...obj, values, params });
-        console.log(`🆕 Nouvel objet ajouté: ${obj.object_id}`);
+        //console.log(`🆕 Nouvel objet ajouté: ${obj.object_id}`);
       }
     }
 
-    console.log("newDataObjects Last : ", newDataObjects)
+    //console.log("newDataObjects Last : ", newDataObjects)
 
     setAllDataObjects(newDataObjects);
   };
@@ -212,9 +211,9 @@ const Home = () => {
   const getAllData = async () => {
     setDataLoaded(false);
     const objects = await getData();
-    console.log("Objects fetched in getAllData:", objects);
+    //console.log("Objects fetched in getAllData:", objects);
     setAllObjects(objects);
-    console.log(objects)
+    //console.log(objects)
 
     await getValueAndParams(objects);
     const automations = await getAutomations();

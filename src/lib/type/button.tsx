@@ -37,7 +37,7 @@ const Button = ({ value }) => {
             key={params.parameter_id}
             style={{ width: "250px" }}
           >
-            <h5 className="fw-bold text-white">🎛️ {params.name}</h5>
+            <h5 className="fw-bold text-white">▶️ {params.name}</h5>
             <p className="text-white small">
               ⏳ Last press : {dateFromParamId[params.parameter_id] || "N/A"}
             </p>
